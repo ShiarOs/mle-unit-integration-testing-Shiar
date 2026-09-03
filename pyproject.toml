@@ -1,0 +1,27 @@
+[project]
+name = "mle-unit-integration-testing"
+version = "0.1.0"
+requires-python = ">=3.13"
+dependencies = [
+    "ipytest>=0.14.2",
+    "numpy>=2.5.2",
+    "pandas>=3.0.5",
+    "pytest>=9.1.1",
+    "sqlalchemy>=2.0.52",
+]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.3.0",
+]
+
+[tool.ty.environment]
+root = [
+    ".",
+    "./01-intro-to-python-packaging",
+    "./01-intro-to-python-packaging/src",
+    "./02-intro-to-unit-testing",
+    "./03-testing-in-data-science",
+    "./04-intro-to-integration-testing",
+    "./05-intro-to-decorators",
+]
