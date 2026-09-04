@@ -15,16 +15,21 @@ class DataPipelineCSV:
 
     def run(self):
         # Coordinate the full read -> process -> write flow and return the result.
-        raise NotImplementedError("Implement run in csv_pipeline.py")
+        data = self.read_data()
+        processed_data = self.process_data(data)
+        self.write_data(processed_data)
+        return processed_data
 
     def read_data(self):
         # Read the source text file into a list of lines.
-        raise NotImplementedError("Implement read_data in csv_pipeline.py")
+        with open(self.input_path, "r", encoding="utf-8") as f:
+            return f.read().strip().split("\n")
 
     def process_data(self, data):
         # Transform each line before it is written back out.
-        raise NotImplementedError("Implement process_data in csv_pipeline.py")
+        return [line.upper() for line in data]
 
     def write_data(self, processed_data):
         # Persist the processed lines so the output artifact can be verified.
-        raise NotImplementedError("Implement write_data in csv_pipeline.py")
+        with open(self.output_path, "w", encoding="utf-8") as f:
+            f.write("\n".join(processed_data))

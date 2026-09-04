@@ -13,7 +13,9 @@ import pandas as pd
 def is_greater_than_average(series: pd.Series) -> pd.Series:
     # Return one flag per row so the result can be compared with assert_series_equal.
     # Return 0 for values <= mean(series), else 1.
-    raise NotImplementedError("Implement is_greater_than_average in transformation.py")
+    mean_val = series.mean()
+    return (series > mean_val).astype(int)
+
 
 
 def get_sum_score_by_brand_and_gender(
@@ -24,6 +26,8 @@ def get_sum_score_by_brand_and_gender(
 ) -> pd.DataFrame:
     # Aggregate the row-level score into one total per (brand, gender) pair.
     # Group by brand and gender, then sum the score column.
-    raise NotImplementedError(
-        "Implement get_sum_score_by_brand_and_gender in transformation.py"
+    return (
+        frame.groupby([brand_col, gender_col])[score_by]
+        .sum()
+        .reset_index()
     )

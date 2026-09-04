@@ -13,6 +13,11 @@
 def generate_neuefische_emails(employees):
 
     # Normalize each name part before you build the final address.
-    raise NotImplementedError(
-        "Implement generate_neuefische_emails in email_generation.py"
-    )
+    # raise NotImplementedError(
+    #     "Implement generate_neuefische_emails in email_generation.py"
+    # )
+    return [
+        f"{employee['first_name'].strip().lower()}.{employee['last_name'].strip().lower()}@neuefische.de"
+        for employee in employees
+    ]
+
