@@ -15,6 +15,7 @@ def input_path(tmp_path_factory):
     database_path = tmp_path_factory.mktemp("test_data").joinpath("input.db")
     engine = create_engine("sqlite:///" + str(database_path), echo=False)
     sample_data = pd.DataFrame({"names": ["mary", "john"], "age": [25, 30]})
+    print(f"Sample data to be written to the database:\n{sample_data}")  # Debugging line
     sample_data.to_sql("table", con=engine, index=False)
     return str(database_path)
 

@@ -11,4 +11,4 @@
 
 
 def add_one(number):
-    return "TODO: Implement me!"
+    return number + 1

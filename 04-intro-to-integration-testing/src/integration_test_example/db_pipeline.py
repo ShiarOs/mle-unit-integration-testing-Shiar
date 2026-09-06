@@ -8,6 +8,11 @@
 # - 04-intro-to-integration-testing.ipynb (Solution toggle block)
 
 
+import pandas as pd
+
+from sqlalchemy import create_engine
+
+
 class DataPipelineDB:
     def __init__(self, input_path, output_path, table_name):
         self.input_path = input_path
@@ -16,16 +21,24 @@ class DataPipelineDB:
 
     def run(self):
         # Coordinate the full database -> transform -> CSV pipeline.
-        raise NotImplementedError("Implement run in db_pipeline.py")
+        data = self.read_data()
+        processed_data = self.process_data(data)
+        self.write_data(processed_data)
+        return processed_data
 
     def read_data(self):
         # Read the SQLite table into a DataFrame for downstream processing.
-        raise NotImplementedError("Implement read_data in db_pipeline.py")
+        engine = create_engine(f"sqlite:///{self.input_path}")
+        with engine.connect() as conn:
+            return pd.read_sql_table(self.table_name, con=conn)
 
     def process_data(self, data):
         # Transform the in-memory DataFrame before it is written to CSV.
-        raise NotImplementedError("Implement process_data in db_pipeline.py")
+        processed_data = data.copy()
+        for col in processed_data.select_dtypes(include="object").columns:
+            processed_data[col] = processed_data[col].str.upper()
+        return processed_data
 
     def write_data(self, processed_data):
         # Persist the processed DataFrame so the written artifact can be checked.
-        raise NotImplementedError("Implement write_data in db_pipeline.py")
+        processed_data.to_csv(self.output_path, index=False)
